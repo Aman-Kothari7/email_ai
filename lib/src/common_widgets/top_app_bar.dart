@@ -5,8 +5,7 @@ import 'package:get/get.dart';
 class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   TopAppBar({Key? key}) : super(key: key);
 
-  final UpgradeButtonController upgradeButtonController =
-      Get.put(UpgradeButtonController()); // Get the controller
+  final UpgradeButtonController upgradeButtonController = Get.put(UpgradeButtonController()); // Get the controller
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +18,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
               ? SizedBox() // Empty box to keep space if needed
               : ElevatedButton(
                   onPressed: () {
-                    
-                    //Call upgrade bottom sheet with pricing 
+                    //Call upgrade bottom sheet with pricing
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.yellow, // Background color
@@ -28,7 +26,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
                       color: Colors.black,
                     ), // Text color
                   ),
-                  child: Text('Upgrade'),
+                  child: Text('Upgrade'.tr),
                 ),
         ),
       ],
