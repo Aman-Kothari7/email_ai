@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import '../../../../main.dart';
 import '../../../models/language_model.dart';
 
-class LanguageController extends GetxController {
+class LanguageThemeController extends GetxController {
   List<LanguageModel> languagesList = [];
-
-  LanguageController() {
+  List<ThemeModel> themeList = [];
+  LanguageThemeController() {
     languagesList.clear();
     languagesList = List.from([
       LanguageModel(
@@ -30,23 +30,64 @@ class LanguageController extends GetxController {
         isSelected: false,
       ),
     ]);
+    themeList.clear();
+    themeList = List.from([
+      ThemeModel(
+        name: 'System Default'.tr,
+        value: 'system',
+        isSelected: true,
+      ),
+      ThemeModel(
+        name: 'Dark'.tr,
+        value: 'dark',
+        isSelected: false,
+      ),
+      ThemeModel(
+        name: 'Light'.tr,
+        value: 'light',
+        isSelected: false,
+      ),
+    ]);
     getStoredValue();
   }
 
   Future<void> setUpdateLanguage(LanguageModel value) async {
     box.write('languageCode', value.code);
     box.write('language', value.name);
+    box.write('flag', value.flagProperty);
   }
 
-  String getStoredValue() {
+  Future<void> setUpdateTheme(value) async {
+    box.write('theme', value);
+  }
+
+  void getStoredValue() {
     languagesList.forEach((element) => element.isSelected = false);
     var storedValue = box.read('languageCode') ?? 'en';
     languagesList[languagesList.indexWhere((element) => element.code == storedValue)].isSelected = true;
-    return storedValue;
+
+    themeList.forEach((element) => element.isSelected = false);
+    var storedTheme = box.read('theme') ?? 'system';
+    themeList[themeList.indexWhere((element) => element.value == storedTheme)].isSelected = true;
   }
 
   updateLanguage(Locale locale) {
     Get.back();
     Get.updateLocale(locale);
+  }
+
+  updateTheme(val) {
+    ThemeMode themeMode;
+    if (val == "light") {
+      themeMode = ThemeMode.light;
+    } else if (val == "dark") {
+      themeMode = ThemeMode.dark;
+    } else {
+      themeMode = ThemeMode.system;
+    }
+
+    Get.changeThemeMode(themeMode);
+    update();
+    Get.back();
   }
 }

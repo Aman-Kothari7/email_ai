@@ -18,3 +18,21 @@ class LanguageModel {
     code = json['code'];
   }
 }
+
+class ThemeModel {
+  String? name;
+  String? value;
+  bool? isSelected;
+
+  ThemeModel({
+    this.name,
+    this.value,
+    this.isSelected,
+  });
+
+  ThemeModel.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    value = json['value'];
+    isSelected = json['isSelected'];
+  }
+}

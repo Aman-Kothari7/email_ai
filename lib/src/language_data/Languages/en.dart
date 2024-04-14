@@ -4,5 +4,12 @@ Map<String, String> en = {
   "Write": "Write",
   "Prompts": "Prompts",
   "My Emails": "My Emails",
-  "Settings": "Settings"
+  "Settings": "Settings",
+  "AI Response Settings": "AI Response Settings",
+  "System Default": "System Default",
+  "Dark": "Dark",
+  "Light": "Light",
+  "App Settings": "App Settings",
+  "App Theme": "App Theme",
+  "Rate this App": "Rate this App"
 };

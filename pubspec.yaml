@@ -12,6 +12,10 @@ dependencies:
   get: ^4.6.6
   get_storage: ^2.1.1
   flag: ^7.0.0
+  google_fonts: ^6.2.1
+  flutter_gen_runner: ^5.4.0
+  build_runner: ^2.4.9
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +25,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+
+  assets:
+    - assets/images/
+    - assets/icons/

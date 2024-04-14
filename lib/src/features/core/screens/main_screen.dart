@@ -13,8 +13,7 @@ import 'package:get/get.dart';
 class MainScreen extends StatelessWidget {
   MainScreen({Key? key}) : super(key: key);
 
-  final BottomNavigationController controller =
-      Get.put(BottomNavigationController());
+  final BottomNavigationController controller = Get.put(BottomNavigationController());
 
   final List<Widget> _pages = [
     WriteScreen(),

@@ -1,27 +1,28 @@
 import 'package:flag/flag_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../constants/colors.dart';
 import '../controllers/language_theme_controller.dart';
 
-class AppLanguageModelSheet extends StatelessWidget {
-  AppLanguageModelSheet({super.key});
+class ThemeModelSheet extends StatelessWidget {
+  ThemeModelSheet({super.key});
 
   final LanguageThemeController controller = Get.put(LanguageThemeController());
 
   @override
   Widget build(BuildContext context) {
     return Container(
+        margin: EdgeInsets.fromLTRB(18, 18, 18, 20),
         decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             )),
         padding: EdgeInsets.only(top: 20, bottom: MediaQuery.of(context).viewInsets.bottom),
-        margin: EdgeInsets.fromLTRB(18, 18, 18, 20),
         child: Column(
           children: [
             Padding(
@@ -33,7 +34,7 @@ class AppLanguageModelSheet extends StatelessWidget {
                     width: 24,
                   ),
                   Text(
-                    "App Language".tr,
+                    "App Theme".tr,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   GestureDetector(
@@ -58,14 +59,14 @@ class AppLanguageModelSheet extends StatelessWidget {
                 shrinkWrap: true,
                 padding: EdgeInsets.all(15),
                 physics: const ClampingScrollPhysics(),
-                itemCount: controller.languagesList.length,
+                itemCount: controller.themeList.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      controller.languagesList.forEach((element) => element.isSelected = false);
-                      controller.languagesList[index].isSelected = true;
-                      controller.updateLanguage(Locale(controller.languagesList[index].code ?? 'en'));
-                      controller.setUpdateLanguage(controller.languagesList[index]);
+                      controller.themeList.forEach((element) => element.isSelected = false);
+                      controller.themeList[index].isSelected = true;
+                      controller.updateTheme(controller.themeList[index].value ?? 'light');
+                      controller.setUpdateTheme(controller.themeList[index].value);
                     },
                     child: Column(children: [
                       Container(
@@ -76,11 +77,12 @@ class AppLanguageModelSheet extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Flag.fromCode(controller.languagesList[index].flagProperty!, width: 21, height: 15),
-                            SizedBox(width: 10),
-                            Text(controller.languagesList[index].name!, style: Theme.of(context).textTheme.titleMedium),
+                            Text(controller.themeList[index].name!,
+                                style: controller.themeList[index].isSelected!
+                                    ? Theme.of(context).textTheme.titleMedium
+                                    : Theme.of(context).textTheme.titleMedium!.copyWith(color: AppColor.textLightGreyColor)),
                             const Spacer(),
-                            controller.languagesList[index].isSelected!
+                            controller.themeList[index].isSelected!
                                 ? Icon(
                                     Icons.check,
                                     color: AppColor.greenColor,

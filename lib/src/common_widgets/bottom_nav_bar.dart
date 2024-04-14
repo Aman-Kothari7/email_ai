@@ -1,5 +1,9 @@
+import 'package:email_ai/src/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+
+import '../../gen/assets.gen.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -19,24 +23,38 @@ class BottomNavBar extends StatelessWidget {
       onTap: onItemSelected,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.edit),
+          icon: SvgPicture.asset(
+            Assets.icons.icnWrite,
+            colorFilter: ColorFilter.mode(selectedIndex == 0 ? AppColor.greenColor : AppColor.iconGreyColor, BlendMode.srcIn),
+          ),
           label: 'Write'.tr,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.star),
+          icon: SvgPicture.asset(
+            Assets.icons.icnPrompt,
+            colorFilter: ColorFilter.mode(selectedIndex == 1 ? AppColor.greenColor : AppColor.iconGreyColor, BlendMode.srcIn),
+          ),
           label: 'Prompts'.tr,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.email),
+          icon: SvgPicture.asset(
+            Assets.icons.icnMails,
+            colorFilter: ColorFilter.mode(selectedIndex == 2 ? AppColor.greenColor : AppColor.iconGreyColor, BlendMode.srcIn),
+          ),
           label: 'My Emails'.tr,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
+          icon: SvgPicture.asset(
+            Assets.icons.icnSettings,
+            colorFilter: ColorFilter.mode(selectedIndex == 3 ? AppColor.greenColor : AppColor.iconGreyColor, BlendMode.srcIn),
+          ),
           label: 'Settings'.tr,
         ),
       ],
-      selectedItemColor: Colors.blue,
-      unselectedItemColor: Colors.grey,
+      selectedItemColor: AppColor.greenColor,
+      selectedIconTheme: IconThemeData(color: AppColor.greenColor),
+      unselectedIconTheme: IconThemeData(color: AppColor.iconGreyColor),
+      unselectedItemColor: AppColor.iconGreyColor,
     );
   }
 }
