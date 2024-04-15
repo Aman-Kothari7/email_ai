@@ -83,7 +83,7 @@ class AppLanguageModelSheet extends StatelessWidget {
                             controller.languagesList[index].isSelected!
                                 ? Icon(
                                     Icons.check,
-                                    color: AppColor.greenColor,
+                                    color: AppColor.primaryColor,
                                   )
                                 : Icon(
                                     Icons.check,

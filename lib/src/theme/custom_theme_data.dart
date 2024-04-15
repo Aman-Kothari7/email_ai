@@ -13,8 +13,9 @@ final TextTheme textThemeLight = TextTheme(
   bodyLarge: GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0.5, color: AppColor.textColor),
   bodyMedium: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25, color: AppColor.textLightGreyColor),
   bodySmall: GoogleFonts.notoSans(fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4, color: AppColor.textLightGreyColor),
-  labelLarge: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 1.25, color: AppColor.textColor),
-  labelSmall: GoogleFonts.notoSans(fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5, color: AppColor.textLightGreyColor),
+  labelLarge: GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 1.25, color: AppColor.textLightGreyColor),
+  labelSmall: GoogleFonts.notoSans(fontSize: 10, fontWeight: FontWeight.w500, letterSpacing: 1.5, color: AppColor.textLightGreyColor),
+  labelMedium: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.5, color: AppColor.textColor),
 );
 
 final TextTheme textThemeDark = TextTheme(
@@ -24,8 +25,9 @@ final TextTheme textThemeDark = TextTheme(
   bodyLarge: GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0.5, color: AppColor.textColorDark),
   bodyMedium: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25, color: AppColor.textLightGreyColor),
   bodySmall: GoogleFonts.notoSans(fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4, color: AppColor.textLightGreyColor),
-  labelLarge: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 1.25, color: AppColor.textColorDark),
-  labelSmall: GoogleFonts.notoSans(fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5, color: AppColor.textLightGreyColor),
+  labelLarge: GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 1.25, color: AppColor.textLightGreyColor),
+  labelSmall: GoogleFonts.notoSans(fontSize: 10, fontWeight: FontWeight.w500, letterSpacing: 1.5, color: AppColor.textLightGreyColor),
+  labelMedium: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.5, color: AppColor.textColorDark),
 );
 
 class ThemeDataStyle {
@@ -40,7 +42,7 @@ class ThemeDataStyle {
     bottomSheetTheme: BottomSheetThemeData(
       backgroundColor: AppColor.backgroundColor,
     ),
-    cardColor: AppColor.WhiteColor,
+    cardColor: AppColor.whiteColor,
     scaffoldBackgroundColor: AppColor.backgroundColor,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: AppColor.backgroundBottomBarColor,

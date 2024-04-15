@@ -85,7 +85,7 @@ class ThemeModelSheet extends StatelessWidget {
                             controller.themeList[index].isSelected!
                                 ? Icon(
                                     Icons.check,
-                                    color: AppColor.greenColor,
+                                    color: AppColor.primaryColor,
                                   )
                                 : Icon(
                                     Icons.check,

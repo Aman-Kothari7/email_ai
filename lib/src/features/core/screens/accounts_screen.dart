@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import '../../../../main.dart';
+import '../../../common_widgets/cards.dart';
 
 class AccountScreen extends StatelessWidget {
   @override
@@ -31,13 +32,7 @@ class AccountScreen extends StatelessWidget {
           onTap: () {
             languageModelSheet(context);
           },
-          child: Container(
-            padding: EdgeInsets.all(18),
-            decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                )),
+          child: ContainerCard(
             child: Row(
               children: [
                 Text(
@@ -72,13 +67,7 @@ class AccountScreen extends StatelessWidget {
           onTap: () {
             themeModelSheet(context);
           },
-          child: Container(
-            padding: EdgeInsets.all(18),
-            decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                )),
+          child: ContainerCard(
             child: Row(
               children: [
                 Text(
@@ -96,13 +85,7 @@ class AccountScreen extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {},
-          child: Container(
-            padding: EdgeInsets.all(18),
-            decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                )),
+          child: ContainerCard(
             child: Row(
               children: [
                 Text(

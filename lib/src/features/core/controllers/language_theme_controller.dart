@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../main.dart';
-import '../../../models/language_model.dart';
+import '../models/language_model.dart';
 
 class LanguageThemeController extends GetxController {
   List<LanguageModel> languagesList = [];
