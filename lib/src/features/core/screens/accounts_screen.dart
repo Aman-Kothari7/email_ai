@@ -134,5 +134,3 @@ class AccountScreen extends StatelessWidget {
         });
   }
 }
-
-// Do similar stubs for PromptsScreen, EmailsScreen, and AccountScreen.

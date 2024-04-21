@@ -8,6 +8,7 @@ import '../models/language_model.dart';
 class LanguageThemeController extends GetxController {
   List<LanguageModel> languagesList = [];
   List<ThemeModel> themeList = [];
+
   LanguageThemeController() {
     languagesList.clear();
     languagesList = List.from([

@@ -1,23 +1,60 @@
 import 'package:email_ai/src/features/core/screens/write_dashboard/preference_tags_modelSheet.dart';
+import 'package:flag/flag_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
+import '../../../../main.dart';
+import '../models/language_model.dart';
 import '../models/preference_tags_model.dart';
 
 class WriteController extends GetxController {
   final RxInt writeMailLength = 0.obs;
+  final RxInt replayMailLength = 0.obs;
+  final RxInt replayLength = 0.obs;
+  final RxInt grammarMailLength = 0.obs;
   RxList<WritingTone> textTypeList = <WritingTone>[].obs;
   RxList<WritingTone> textLengthList = <WritingTone>[].obs;
   RxList<WritingTone> writingToneList = <WritingTone>[].obs;
   RxList<WritingTone> useEmojiList = <WritingTone>[].obs;
   RxList<WritingTone> selectedList = <WritingTone>[].obs;
   TextEditingController writeMailController = TextEditingController();
+  TextEditingController replayMailController = TextEditingController();
+  TextEditingController replayController = TextEditingController();
+  TextEditingController grammarController = TextEditingController();
+  List<LanguageModel> languagesOutputList = [];
+  RxString selectedOutputLanguage = "".obs;
 
   WriteController() {
     loadPreferenceTagsModel();
+
+    languagesOutputList = List.from([
+      LanguageModel(
+        name: 'English',
+        flagProperty: FlagsCode.GB,
+        code: ('en'),
+        isSelected: true,
+      ),
+      LanguageModel(
+        name: 'Spanish',
+        flagProperty: FlagsCode.ES,
+        code: ('sp'),
+        isSelected: false,
+      ),
+      LanguageModel(
+        name: 'French',
+        flagProperty: FlagsCode.FR,
+        code: ('fr'),
+        isSelected: false,
+      ),
+    ]);
+    languagesOutputList.forEach((element) => element.isSelected = false);
+    var storedValue = box.read('outputLanguageCode') ?? 'en';
+    var storeData = languagesOutputList.indexWhere((element) => element.code == storedValue);
+    languagesOutputList[storeData].isSelected = true;
+    selectedOutputLanguage.value = languagesOutputList[storeData].name!;
   }
   PreferenceTagsModel? preferenceTagsList;
   loadPreferenceTagsModel() async {
@@ -27,6 +64,14 @@ class WriteController extends GetxController {
     textLengthList.value = preferenceTagsList!.textLength;
     writingToneList.value = preferenceTagsList!.writingTone;
     useEmojiList.value = preferenceTagsList!.useEmoji;
+  }
+
+  Future<void> setOutputUpdateLanguage(LanguageModel value) async {
+    box.write('outputLanguageCode', value.code);
+    box.write('outputLanguage', value.name);
+    box.write('outputLanguageFlag', value.flagProperty);
+    selectedOutputLanguage.value = value.name!;
+    Get.back();
   }
 
   selectLoadPreferenceTagsModel(WritingTone tag, int position) async {
@@ -58,6 +103,24 @@ class WriteController extends GetxController {
   void clear() {
     writeMailController.text = "";
     writeMailLength.value = 0;
+    // update();
+  }
+
+  void clearEmailReplay() {
+    replayMailController.text = "";
+    replayMailLength.value = 0;
+    // update();
+  }
+
+  void clearReplay() {
+    replayController.text = "";
+    replayLength.value = 0;
+    // update();
+  }
+
+  void clearGrammar() {
+    grammarController.text = "";
+    grammarMailLength.value = 0;
     // update();
   }
 }

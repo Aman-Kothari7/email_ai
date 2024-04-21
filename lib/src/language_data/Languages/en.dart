@@ -46,4 +46,8 @@ Map<String, String> en = {
   "No Emoji": "No Emoji",
   "Ex.\nWrite me a mail asking for a follow up from the HR of [Company Name]":
       "Ex.\nWrite me a mail asking for a follow up from the HR of [Company Name]",
+  "Paste Email here": "Paste Email here",
+  "Explain how to reply to these text": "Explain how to reply to these text",
+  "Write here to check Grammar": "Write here to check Grammar",
+  "Output Language": "Output Language"
 };
