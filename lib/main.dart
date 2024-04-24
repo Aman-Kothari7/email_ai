@@ -1,4 +1,5 @@
 import 'package:email_ai/src/features/core/screens/main_screen.dart';
+import 'package:email_ai/src/features/core/screens/onbording_screen.dart';
 import 'package:email_ai/src/language_data/localString.dart';
 import 'package:email_ai/src/theme/custom_theme_data.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       translations: LocaleString(),
       locale: getLanguage(),
-      home: MainScreen(),
+      home: OnboardingScreen(),
       themeMode: getTheme(),
       theme: ThemeDataStyle.light, // Light/Default mode styles
       darkTheme: ThemeDataStyle.dark, // Dark mode styles

@@ -227,7 +227,7 @@ class ReplayScreen extends StatelessWidget {
             'Generate'.tr,
             () {},
             isLoading: false,
-            textStyle: TextStyle(fontSize: 18, color: AppColor.whiteColor),
+            textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: AppColor.whiteColor),
           ),
         ),
       ),

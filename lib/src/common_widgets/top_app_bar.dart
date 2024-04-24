@@ -17,6 +17,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: AppBar(
         centerTitle: false,
+        automaticallyImplyLeading: false,
         title: Theme.of(context).brightness == Brightness.dark
             ? SvgPicture.asset(
                 Assets.icons.darkLogo,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:email_ai/src/features/core/screens/write_dashboard/preference_tags_modelSheet.dart';
 import 'package:flag/flag_enum.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../../main.dart';
 import '../models/language_model.dart';
 import '../models/preference_tags_model.dart';
@@ -122,5 +124,41 @@ class WriteController extends GetxController {
     grammarController.text = "";
     grammarMailLength.value = 0;
     // update();
+  }
+
+  final String? _openAiKey = "sk-proj-eYq4UHTVeQXvqManJ46VT3BlbkFJtPMP7UNVjPARNznqyAbI";
+  RxString _response = ''.obs;
+
+  String get response => _response.value;
+
+  Future<String> chatGPTAPI(String prompt) async {
+    try {
+      final res = await http.post(
+        Uri.parse('https://api.openai.com/v1/chat/completions'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $_openAiKey',
+        },
+        body: jsonEncode({
+          "model": "gpt-3.5-turbo",
+          "messages": [
+            {
+              'role': 'user',
+              'content': prompt,
+            }
+          ],
+        }),
+      );
+
+      if (res.statusCode == 200) {
+        String content = jsonDecode(res.body)['choices'][0]['message']['content'];
+        content = content.trim();
+        return _response.value = content;
+      } else {
+        return _response.value = 'An internal error occurred';
+      }
+    } catch (e) {
+      return _response.value = e.toString();
+    }
   }
 }
