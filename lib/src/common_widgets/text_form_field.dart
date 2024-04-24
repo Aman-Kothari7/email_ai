@@ -24,6 +24,7 @@ class TextFormFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textFormController,
+      style: Theme.of(context).textTheme.bodyLarge,
       decoration: InputDecoration(
           hintText: hintText.tr,
           hintStyle: Theme.of(context).textTheme.labelLarge,
@@ -57,13 +58,15 @@ class TextFormFieldWithoutMaxLengthWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textFormController,
+      style: Theme.of(context).textTheme.titleMedium,
       decoration: InputDecoration(
           hintText: hintText.tr,
-          hintStyle: Theme.of(context).textTheme.labelLarge,
+          hintStyle: Theme.of(context).textTheme.bodyLarge,
           border: InputBorder.none,
           fillColor: Colors.transparent,
           counterText: ""),
       autofocus: false,
+      keyboardType: TextInputType.multiline,
       cursorColor: AppColor.primaryColor,
       onChanged: onChanged,
       maxLines: maxLines,
@@ -231,7 +234,7 @@ class AppTextField extends StatelessWidget {
               fontSize: 14,
             ),
             errorMaxLines: 2,
-            labelStyle: TextStyle(fontSize: 16, color: AppColor.textColor),
+            labelStyle: Theme.of(context).textTheme.bodyLarge,
             alignLabelWithHint: true,
             contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             focusedBorder: OutlineInputBorder(

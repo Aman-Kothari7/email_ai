@@ -96,21 +96,18 @@ class SendMailScreen extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.67,
                     child: ContainerCard(
+                      padding: EdgeInsets.all(15),
                       margin: EdgeInsets.only(bottom: 10),
                       child: Column(
                         children: [
                           Expanded(
-                            child: Stack(
-                              children: [
-                                TextFormFieldWithoutMaxLengthWidget(
-                                  textFormController: controller.sendMailController,
-                                  hintText: "",
-                                  onChanged: (val) {
-                                    //controller.writeMailLength.value = val.length;
-                                  },
-                                  maxLines: 23,
-                                ),
-                              ],
+                            child: TextFormFieldWithoutMaxLengthWidget(
+                              textFormController: controller.sendMailController,
+                              hintText: "",
+                              onChanged: (val) {
+                                //controller.writeMailLength.value = val.length;
+                              },
+                              maxLines: 23,
                             ),
                           )
                         ],
