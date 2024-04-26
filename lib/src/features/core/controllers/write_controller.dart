@@ -126,7 +126,7 @@ class WriteController extends GetxController {
     // update();
   }
 
-  final String? _openAiKey = "sk-proj-eYq4UHTVeQXvqManJ46VT3BlbkFJtPMP7UNVjPARNznqyAbI";
+  final String? _openAiKey = "";
   RxString _response = ''.obs;
 
   String get response => _response.value;
