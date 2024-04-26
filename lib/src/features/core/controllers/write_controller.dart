@@ -126,10 +126,9 @@ class WriteController extends GetxController {
     // update();
   }
 
-  final String? openAiKey = "sk-proj-eYq4UHTVeQXvqManJ46VT3BlbkFJtPMP7UNVjPARNznqyAbI";
-  RxString responseData = ''.obs;
+  RxString _response = ''.obs;
 
-  String get response => responseData.value;
+  String get response => _response.value;
 
   Future<String> chatGPTAPI(String prompt) async {
     try {
@@ -137,7 +136,7 @@ class WriteController extends GetxController {
         Uri.parse('https://api.openai.com/v1/chat/completions'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $openAiKey',
+          'Authorization': 'Bearer $_openAiKey',
         },
         body: jsonEncode({
           "model": "gpt-3.5-turbo",
@@ -153,12 +152,12 @@ class WriteController extends GetxController {
       if (res.statusCode == 200) {
         String content = jsonDecode(res.body)['choices'][0]['message']['content'];
         content = content.trim();
-        return responseData.value = content;
+        return _response.value = content;
       } else {
-        return responseData.value = 'An internal error occurred';
+        return _response.value = 'An internal error occurred';
       }
     } catch (e) {
-      return responseData.value = e.toString();
+      return _response.value = e.toString();
     }
   }
 }
