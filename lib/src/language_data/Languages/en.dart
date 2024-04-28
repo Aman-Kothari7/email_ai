@@ -49,5 +49,11 @@ Map<String, String> en = {
   "Paste Email here": "Paste Email here",
   "Explain how to reply to these text": "Explain how to reply to these text",
   "Write here to check Grammar": "Write here to check Grammar",
-  "Output Language": "Output Language"
+  "Output Language": "Output Language",
+  "Send": "Send",
+  "Copy": "Copy",
+  "Share": "Share",
+  "Delete": "Delete",
+  "Rewrite": "Rewrite",
+  "User Profile": "User Profile"
 };

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "590100495212",
+    "project_id": "emailai-9f0ff",
+    "storage_bucket": "emailai-9f0ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590100495212:android:b0138e16de28ee47af5149",
+        "android_client_info": {
+          "package_name": "com.litdraft.emailai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXW_32XyfBLIO7y8JTMMEZsf_gEGf2L3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "590100495212",
+    "project_id": "emailai-9f0ff",
+    "storage_bucket": "emailai-9f0ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590100495212:android:b0138e16de28ee47af5149",
+        "android_client_info": {
+          "package_name": "com.litdraft.emailai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590100495212-q0ptbdtlbpv97v9f9rcrl2r7814kq8ne.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.litdraft.emailai",
+            "certificate_hash": "bc32105326710098cc16b8b0d6cc168b0ce96f24"
+          }
+        },
+        {
+          "client_id": "590100495212-21isfg7dllj2eefbnjmcur1hfjhkmrgp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXW_32XyfBLIO7y8JTMMEZsf_gEGf2L3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590100495212-21isfg7dllj2eefbnjmcur1hfjhkmrgp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "590100495212-968nfrn47o17tn5ogu1ecm74eon9klb1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.litdraft.emailai"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

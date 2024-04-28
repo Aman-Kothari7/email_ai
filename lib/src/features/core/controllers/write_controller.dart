@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_ai/src/features/core/screens/write_dashboard/preference_tags_modelSheet.dart';
 import 'package:flag/flag_enum.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,12 @@ class WriteController extends GetxController {
   List<LanguageModel> languagesOutputList = [];
   RxString selectedOutputLanguage = "".obs;
 
-  WriteController() {
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
     loadPreferenceTagsModel();
-
+    getId();
     languagesOutputList = List.from([
       LanguageModel(
         name: 'English',
@@ -58,6 +62,16 @@ class WriteController extends GetxController {
     languagesOutputList[storeData].isSelected = true;
     selectedOutputLanguage.value = languagesOutputList[storeData].name!;
   }
+
+  String? _openAiKey = "";
+
+  getId() async {
+    var doc_ref = await FirebaseFirestore.instance.collection('openAiKey').doc("openAiKey").get();
+    var data = doc_ref.data();
+    print(data!["openAiKey"]);
+    _openAiKey = data["openAiKey"];
+  }
+
   PreferenceTagsModel? preferenceTagsList;
   loadPreferenceTagsModel() async {
     String jsonString = await rootBundle.loadString('assets/jsonData/preference_tags.json');
