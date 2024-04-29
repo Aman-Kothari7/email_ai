@@ -58,10 +58,10 @@ class TextFormFieldWithoutMaxLengthWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textFormController,
-      style: Theme.of(context).textTheme.titleMedium,
+      style: Theme.of(context).textTheme.bodyLarge,
       decoration: InputDecoration(
           hintText: hintText.tr,
-          hintStyle: Theme.of(context).textTheme.bodyLarge,
+          hintStyle: Theme.of(context).textTheme.labelLarge,
           border: InputBorder.none,
           fillColor: Colors.transparent,
           counterText: ""),

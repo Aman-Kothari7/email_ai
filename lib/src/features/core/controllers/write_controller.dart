@@ -1,17 +1,21 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:email_ai/src/features/core/screens/write_dashboard/preference_tags_modelSheet.dart';
 import 'package:flag/flag_enum.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import '../../../../main.dart';
+import '../../database/db.dart';
 import '../models/language_model.dart';
+import '../models/my_email_model.dart';
 import '../models/preference_tags_model.dart';
+import '../screens/send_mail_screen.dart';
 
 class WriteController extends GetxController {
   final RxInt writeMailLength = 0.obs;
@@ -29,13 +33,14 @@ class WriteController extends GetxController {
   TextEditingController grammarController = TextEditingController();
   List<LanguageModel> languagesOutputList = [];
   RxString selectedOutputLanguage = "".obs;
-
+  DBHelper? dbHelper;
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     loadPreferenceTagsModel();
     getId();
+    dbHelper = DBHelper();
     languagesOutputList = List.from([
       LanguageModel(
         name: 'English',
@@ -144,7 +149,7 @@ class WriteController extends GetxController {
 
   String get response => _response.value;
 
-  Future<String> chatGPTAPI(String prompt) async {
+  Future<void> chatGPTAPI(String prompt, {title}) async {
     try {
       final res = await http.post(
         Uri.parse('https://api.openai.com/v1/chat/completions'),
@@ -166,12 +171,41 @@ class WriteController extends GetxController {
       if (res.statusCode == 200) {
         String content = jsonDecode(res.body)['choices'][0]['message']['content'];
         content = content.trim();
-        return _response.value = content;
+        DateTime now = DateTime.now();
+        var formattedDate = DateFormat.yMMMd().add_jm().format(now);
+        dbHelper
+            ?.insert(MyEmailModel(
+          title: title.text,
+          description: content,
+          addedDate: formattedDate,
+        ))
+            .then((value) {
+          Get.back();
+          Get.to(() => SendMailScreen(id: value.id ?? 0), arguments: [
+            {"data": content},
+          ]);
+        }).onError((error, stackTrace) {
+          Get.back();
+          Get.showSnackbar(GetSnackBar(
+            message: 'Something went wrong, Please try again later',
+            duration: const Duration(seconds: 2),
+          ));
+        });
+
+        // return _response.value = content;
       } else {
-        return _response.value = 'An internal error occurred';
+        Get.showSnackbar(GetSnackBar(
+          message: 'An internal error occurred',
+          duration: const Duration(seconds: 2),
+        ));
+        Get.back();
+        // return _response.value = 'An internal error occurred';
       }
     } catch (e) {
-      return _response.value = e.toString();
+      Get.showSnackbar(GetSnackBar(
+        message: e.toString(),
+        duration: const Duration(seconds: 2),
+      ));
     }
   }
 }

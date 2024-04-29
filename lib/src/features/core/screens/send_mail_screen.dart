@@ -2,8 +2,10 @@ import 'package:email_ai/src/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../common_widgets/app_button.dart';
 import '../../../common_widgets/cards.dart';
@@ -14,7 +16,8 @@ import '../controllers/send_mail_controller.dart';
 enum OptionsMail { Rewrite, Share, Delete }
 
 class SendMailScreen extends StatelessWidget {
-  SendMailScreen({super.key});
+  int id;
+  SendMailScreen({required this.id, super.key});
 
   final SendMailController controller = Get.put(SendMailController());
 
@@ -43,6 +46,12 @@ class SendMailScreen extends StatelessWidget {
   _onMenuItemSelected(int value) {
     //setState(() {
     _popupMenuItemIndex = value;
+    if (value == 1) {
+      Share.share(controller.sendMailController.text);
+    } else if (value == 2) {
+      controller.dbHelper!.deleteMyEmail(id);
+      Get.back(result: true);
+    }
     //});
   }
 
@@ -144,8 +153,14 @@ class SendMailScreen extends StatelessWidget {
                     child: AppButton(
                       'Send Mail'.tr,
                       () async {
-                        try {} catch (ex) {
-                          // Navigator.pop(context);
+                        try {
+                          final Email email = Email(
+                            body: controller.sendMailController.text.replaceAll("\n", "<br>"),
+                            isHTML: true,
+                          );
+                          await FlutterEmailSender.send(email);
+                        } catch (ex) {
+                          print(ex);
                         }
                       },
                       isLoading: false,

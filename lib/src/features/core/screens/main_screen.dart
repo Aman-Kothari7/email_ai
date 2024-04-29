@@ -16,20 +16,13 @@ class MainScreen extends StatelessWidget {
 
   final BottomNavigationController controller = Get.put(BottomNavigationController());
 
-  final List<Widget> _pages = [
-    WriteDashboardScreen(),
-    PromptsScreen(),
-    EmailsScreen(),
-    AccountScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopAppBar(),
       body: Obx(() => IndexedStack(
             index: controller.selectedIndex.value,
-            children: _pages,
+            children: controller.pages,
           )),
       bottomNavigationBar: Obx(() => BottomNavBar(
             selectedIndex: controller.selectedIndex.value,

@@ -110,12 +110,12 @@
     {
       "icon":"With",
       "title":"With Emoji",
-      "isSelected":true
+      "isSelected":false
     },
     {
       "icon":"no",
       "title":"No Emoji",
-      "isSelected":false
+      "isSelected":true
     }
   ]
 }

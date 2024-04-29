@@ -15,7 +15,6 @@ import '../../../common_widgets/app_button.dart';
 import '../../../common_widgets/cards.dart';
 import '../../../common_widgets/text_form_field.dart';
 import '../../../common_widgets/top_app_bar.dart';
-import '../../../constants/string.dart';
 import '../controllers/write_controller.dart';
 
 class CommonWrite extends StatelessWidget {
@@ -239,6 +238,7 @@ class CommonWrite extends StatelessWidget {
                       () async {
                         try {
                           if (controller.writeMailController.text.isNotEmpty) {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             showLoader(context);
                             String userPrompt = controller.writeMailController.text;
                             var textType = (controller.textTypeList.where((element) => element.isSelected == true)).first.title.tr;
@@ -249,12 +249,7 @@ class CommonWrite extends StatelessWidget {
                             String prompt =
                                 "Write an ${textType} according to the following prompt given by the user: $userPrompt\n$textType\n$textLength\n$textWritingTone\n$useEmoji";
                             print(prompt);
-                            var data = await controller.chatGPTAPI(prompt);
-                            print(data);
-                            Navigator.pop(context);
-                            Get.to(() => SendMailScreen(), arguments: [
-                              {"data": data},
-                            ]);
+                            await controller.chatGPTAPI(prompt, title: controller.writeMailController.value);
                           } else {
                             Get.showSnackbar(
                               GetSnackBar(

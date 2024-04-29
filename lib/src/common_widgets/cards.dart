@@ -107,11 +107,19 @@ class MyEmailCard extends StatelessWidget {
   final String titleText;
   final String subTitleText;
   final Function()? onTap;
+  final Function()? onSend;
+  final Function()? onCopy;
+  final Function()? onShare;
+  final Function()? onDelete;
   MyEmailCard({
     required this.dateTime,
     required this.titleText,
     required this.subTitleText,
     required this.onTap,
+    this.onCopy,
+    this.onDelete,
+    this.onSend,
+    this.onShare,
     super.key,
   });
 
@@ -140,6 +148,15 @@ class MyEmailCard extends StatelessWidget {
   _onMenuItemSelected(int value) {
     //setState(() {
     _popupMenuItemIndex = value;
+    if (value == 0) {
+      onSend!();
+    } else if (value == 2) {
+      onShare!();
+    } else if (value == 3) {
+      onDelete!();
+    } else {
+      onCopy!();
+    }
     //});
   }
 
@@ -149,7 +166,7 @@ class MyEmailCard extends StatelessWidget {
       onTap: onTap,
       child: ContainerCard(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
-        padding: EdgeInsets.fromLTRB(15, 12, 15, 12),
+        padding: EdgeInsets.fromLTRB(15, 5, 15, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -161,6 +178,7 @@ class MyEmailCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 PopupMenuButton(
+                  padding: EdgeInsets.all(0),
                   icon: SvgPicture.asset(
                     Assets.icons.icnMore,
                   ),
@@ -185,9 +203,6 @@ class MyEmailCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: 5,
-            ),
             Text(
               titleText.tr,
               style: Theme.of(context).textTheme.titleMedium,
@@ -199,9 +214,9 @@ class MyEmailCard extends StatelessWidget {
             ),
             Text(
               subTitleText.tr,
-              style: Theme.of(context).textTheme.labelLarge,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium,
+              maxLines: 3,
+              overflow: TextOverflow.fade,
             )
           ],
         ),
