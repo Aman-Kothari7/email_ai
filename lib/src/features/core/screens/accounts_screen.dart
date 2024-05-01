@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:email_ai/src/constants/colors.dart';
 import 'package:email_ai/src/features/core/screens/appLanguage_modelSheet.dart';
 import 'package:email_ai/src/features/core/screens/theme_modelSheet.dart';
+import 'package:email_ai/src/features/core/screens/user_profile_screen.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,14 @@ import '../../../../main.dart';
 import '../../../common_widgets/cards.dart';
 import '../controllers/account_controller.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
   AccountController accountController = AccountController();
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -36,7 +43,9 @@ class AccountScreen extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            accountController.googleSign();
+            Get.to(() => UserProfileScreen())!.then((value) {
+              setState(() {});
+            });
           },
           child: ContainerCard(
             child: Row(
@@ -44,36 +53,43 @@ class AccountScreen extends StatelessWidget {
                 Container(
                     height: 50,
                     child: ClipOval(
-                      child: Obx(() => CachedNetworkImage(
-                            imageUrl: accountController.profileImage.value,
-                            placeholder: (context, url) => CircularProgressIndicator(),
-                            errorWidget: (context, url, error) => SvgPicture.asset(
-                              Assets.icons.userProfile,
-                            ),
-                          )),
+                      child: SvgPicture.asset(
+                        Assets.icons.userProfile,
+                      ),
                     )),
                 SizedBox(
                   width: 15,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "User Profile".tr,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Obx(
-                      () => (accountController.emailId.value.isNotEmpty)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "User Profile".tr,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      (box.read("userName") != null)
                           ? Text(
-                              accountController.emailId.value,
+                              (box.read("userName") ?? '') +
+                                  (box.read("userAge") != null && box.read("userAge").toString().isNotEmpty
+                                      ? (", " + box.read("userAge") + " yo")
+                                      : '') +
+                                  (box.read("userGender") != null && box.read("userGender").toString().isNotEmpty
+                                      ? (", " + box.read("userGender"))
+                                      : '') +
+                                  (box.read("userCompany") != null && box.read("userCompany").toString().isNotEmpty
+                                      ? (", " + box.read("userCompany"))
+                                      : '') +
+                                  (box.read("userRole") != null && box.read("userRole").toString().isNotEmpty ? (", " + box.read("userRole")) : ''),
                               style: Theme.of(context).textTheme.bodyMedium,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             )
                           : SizedBox.shrink(),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-                // Spacer(),
-                // Icon(Icons.chevron_right, color: AppColor.iconGreyColor)
+                Icon(Icons.chevron_right, color: AppColor.iconGreyColor)
               ],
             ),
           ),
@@ -151,6 +167,27 @@ class AccountScreen extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(
+          height: 15,
+        ),
+        // Text(
+        //   "Account".tr,
+        //   style: Theme.of(context).textTheme.titleLarge,
+        // ),
+        // SizedBox(
+        //   height: 15,
+        // ),
+        // GestureDetector(
+        //   onTap: () {
+        //     accountController.googleSign();
+        //   },
+        //   child: ContainerCard(
+        //     child: Text(
+        //       "SignIn".tr,
+        //       style: Theme.of(context).textTheme.titleMedium,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

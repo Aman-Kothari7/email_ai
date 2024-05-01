@@ -55,5 +55,16 @@ Map<String, String> en = {
   "Share": "Share",
   "Delete": "Delete",
   "Rewrite": "Rewrite",
-  "User Profile": "User Profile"
+  "User Profile": "User Profile",
+  "Account": "Account",
+  "Your Name": "Your Name",
+  "Your Age": "Your Age",
+  "Your Company Name": "Your Company Name",
+  "Your Profession / Job Role": "Your Profession / Job Role",
+  "Your Education": "Your Education",
+  "Write about Yourself": "Write about Yourself",
+  "Gender": "Gender",
+  "Male": "Male",
+  "Female": "Female",
+  "Back": "Back"
 };

@@ -60,11 +60,7 @@ class TextFormFieldWithoutMaxLengthWidget extends StatelessWidget {
       controller: textFormController,
       style: Theme.of(context).textTheme.bodyLarge,
       decoration: InputDecoration(
-          hintText: hintText.tr,
-          hintStyle: Theme.of(context).textTheme.labelLarge,
-          border: InputBorder.none,
-          fillColor: Colors.transparent,
-          counterText: ""),
+          hintText: hintText.tr, hintStyle: Theme.of(context).textTheme.labelLarge, border: InputBorder.none, fillColor: Colors.red, counterText: ""),
       autofocus: false,
       keyboardType: TextInputType.multiline,
       cursorColor: AppColor.primaryColor,
@@ -198,7 +194,7 @@ class AppTextField extends StatelessWidget {
       maxLines: maxLines,
       autovalidateMode: autovalidateMode,
       obscuringCharacter: obscuringCharacter ?? '*',
-      style: textStyle ?? Theme.of(context).textTheme.labelMedium,
+      style: textStyle ?? Theme.of(context).textTheme.bodyLarge,
       obscureText: obscureText,
       validator: validators ??
           (value) {
@@ -229,7 +225,7 @@ class AppTextField extends StatelessWidget {
             suffix: suffix,
             suffixIconConstraints: suffixIconConstraints,
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintStyle: Theme.of(context).textTheme.bodyMedium,
+            hintStyle: Theme.of(context).textTheme.labelLarge,
             errorStyle: TextStyle(
               fontSize: 14,
             ),
