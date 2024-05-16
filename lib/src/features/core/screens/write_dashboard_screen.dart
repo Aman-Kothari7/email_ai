@@ -12,7 +12,7 @@ class WriteDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Column(
         children: [
           Container(
@@ -33,7 +33,7 @@ class WriteDashboardScreen extends StatelessWidget {
               tabs: [
                 Tab(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    padding: const EdgeInsets.only(left: 50, right: 50),
                     child: Text(
                       "Write".tr,
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -43,7 +43,7 @@ class WriteDashboardScreen extends StatelessWidget {
                 ),
                 Tab(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    padding: const EdgeInsets.only(left: 50, right: 50),
                     child: Text(
                       "Reply".tr,
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -51,16 +51,16 @@ class WriteDashboardScreen extends StatelessWidget {
                   ),
                   //text: "Write".tr,
                 ),
-                Tab(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Text(
-                      "Grammar".tr,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  //text: "Write".tr,
-                ),
+                // Tab(
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(left: 20, right: 20),
+                //     child: Text(
+                //       "Grammar".tr,
+                //       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                //     ),
+                //   ),
+                //   //text: "Write".tr,
+                // ),
               ],
             ),
           ),
@@ -69,7 +69,7 @@ class WriteDashboardScreen extends StatelessWidget {
             children: [
               WriteScreen(),
               ReplayScreen(),
-              GrammarScreen(),
+              // GrammarScreen(),
             ],
           ))
         ],

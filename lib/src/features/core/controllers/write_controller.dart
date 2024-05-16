@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flag/flag_enum.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,7 +9,9 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../../main.dart';
+import '../../../common_widgets/app_button.dart';
 import '../../database/db.dart';
 import '../models/language_model.dart';
 import '../models/my_email_model.dart';
@@ -51,7 +52,7 @@ class WriteController extends GetxController {
       LanguageModel(
         name: 'Spanish',
         flagProperty: FlagsCode.ES,
-        code: ('sp'),
+        code: ('es'),
         isSelected: false,
       ),
       LanguageModel(
@@ -69,12 +70,52 @@ class WriteController extends GetxController {
   }
 
   String? _openAiKey = "";
+  String? writePrompt = "";
+  String? replayPrompt = "";
 
   getId() async {
     var doc_ref = await FirebaseFirestore.instance.collection('openAiKey').doc("openAiKey").get();
     var data = doc_ref.data();
     print(data!["openAiKey"]);
     _openAiKey = data["openAiKey"];
+
+    var doc_ref_prompt = await FirebaseFirestore.instance.collection('openAiKey').doc("promptsText").get();
+    var data_prompt = doc_ref_prompt.data();
+    print(data_prompt!["promptsText"]);
+    writePrompt = data_prompt["promptsText"];
+
+    var doc_ref_replay_prompt = await FirebaseFirestore.instance.collection('openAiKey').doc("promptsReplayText").get();
+    var data_replay_prompt = doc_ref_replay_prompt.data();
+    print(data_replay_prompt!["promptsReplayText"]);
+    writePrompt = data_replay_prompt["promptsReplayText"];
+  }
+
+  void listenForPermissions() async {
+    final status = await Permission.microphone.status;
+    switch (status) {
+      case PermissionStatus.denied:
+        requestForPermission();
+        break;
+      case PermissionStatus.granted:
+        break;
+      case PermissionStatus.limited:
+        break;
+      case PermissionStatus.permanentlyDenied:
+        Get.showSnackbar(GetSnackBar(
+          backgroundColor: Colors.redAccent,
+          message: 'Please grant permission From the App Settings',
+          duration: const Duration(seconds: 2),
+        ));
+        break;
+      case PermissionStatus.restricted:
+        break;
+      case PermissionStatus.provisional:
+        break;
+    }
+  }
+
+  Future<void> requestForPermission() async {
+    await Permission.microphone.request();
   }
 
   PreferenceTagsModel? preferenceTagsList;
@@ -149,8 +190,9 @@ class WriteController extends GetxController {
 
   String get response => _response.value;
 
-  Future<void> chatGPTAPI(String prompt, {title}) async {
+  Future<void> chatGPTAPIWrite(context, String prompt, {title, bool isClear = false}) async {
     try {
+      showLoader(context);
       final res = await http.post(
         Uri.parse('https://api.openai.com/v1/chat/completions'),
         headers: {
@@ -162,20 +204,27 @@ class WriteController extends GetxController {
           "messages": [
             {
               'role': 'user',
-              'content': prompt,
+              'content': '$prompt',
             }
           ],
         }),
       );
 
       if (res.statusCode == 200) {
+        if (isClear) {
+          clear();
+          clearEmailReplay();
+          clearReplay();
+        }
+
         String content = jsonDecode(res.body)['choices'][0]['message']['content'];
         content = content.trim();
+
         DateTime now = DateTime.now();
         var formattedDate = DateFormat.yMMMd().add_jm().format(now);
         dbHelper
             ?.insert(MyEmailModel(
-          title: title.text,
+          title: title,
           description: content,
           addedDate: formattedDate,
         ))
@@ -194,14 +243,16 @@ class WriteController extends GetxController {
 
         // return _response.value = content;
       } else {
+        Get.back();
         Get.showSnackbar(GetSnackBar(
           message: 'An internal error occurred',
           duration: const Duration(seconds: 2),
         ));
-        Get.back();
+
         // return _response.value = 'An internal error occurred';
       }
     } catch (e) {
+      Get.back();
       Get.showSnackbar(GetSnackBar(
         message: e.toString(),
         duration: const Duration(seconds: 2),

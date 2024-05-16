@@ -56,5 +56,9 @@
     			</array>
     		</dict>
     	</array>
+    	<key>NSMicrophoneUsageDescription</key>
+        <string>Need this permission for speech on the device microphone on your request.</string>
+        <key>NSSpeechRecognitionUsageDescription</key>
+        <string>Need this permission to recognizes words as you speak them and displays them. </string>
 </dict>
 </plist>

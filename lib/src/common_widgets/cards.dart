@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -34,6 +35,7 @@ class PromptCard extends StatelessWidget {
   final String titleText;
   final String subTitleText;
   final Function()? onTap;
+  final Function()? onBookMark;
   const PromptCard({
     required this.typeContainerColor,
     required this.typeContainerText,
@@ -41,6 +43,7 @@ class PromptCard extends StatelessWidget {
     required this.titleText,
     required this.subTitleText,
     required this.onTap,
+    required this.onBookMark,
     super.key,
   });
 
@@ -66,17 +69,22 @@ class PromptCard extends StatelessWidget {
                         )),
                     child: Text(
                       typeContainerText.tr,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColor.whiteColor),
                     )),
-                isBookmark
-                    ? Icon(
-                        Icons.bookmark,
-                        color: AppColor.lightYellowColor,
-                      )
-                    : Icon(
-                        Icons.bookmark_border,
-                        color: AppColor.iconGreyColor,
-                      )
+                GestureDetector(
+                  onTap: onBookMark,
+                  child: isBookmark
+                      ? Icon(
+                          Icons.bookmark,
+                          color: AppColor.lightYellowColor,
+                        )
+                      : Icon(
+                          Icons.bookmark_border,
+                          color: AppColor.iconGreyColor,
+                        ),
+                )
               ],
             ),
             SizedBox(
@@ -84,14 +92,18 @@ class PromptCard extends StatelessWidget {
             ),
             Text(
               titleText.tr,
-              style: Theme.of(context).textTheme.titleMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             SizedBox(
               height: 2,
             ),
             Text(
               subTitleText.tr,
-              style: Theme.of(context).textTheme.labelLarge,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium,
             )
           ],
         ),

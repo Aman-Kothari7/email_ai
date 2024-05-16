@@ -1,5 +1,6 @@
 import 'package:email_ai/src/constants/colors.dart';
 import 'package:email_ai/src/features/core/controllers/upgrade_button_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -33,6 +34,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
                     padding: const EdgeInsets.only(right: 15.0),
                     child: TextButton(
                       onPressed: () {
+                        //Get.to(SubscriptionScreen());
                         //Call upgrade bottom sheet with pricing
                       },
                       style: TextButton.styleFrom(
@@ -46,7 +48,10 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
                         children: [
                           SvgPicture.asset(
                             Assets.icons.icnCrown,
-                            color: AppColor.lightYellowColor,
+                            colorFilter: ColorFilter.mode(
+                              AppColor.lightYellowColor,
+                              BlendMode.srcIn,
+                            ),
                           ),
                           SizedBox(
                             width: 5,

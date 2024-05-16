@@ -66,5 +66,14 @@ Map<String, String> en = {
   "Gender": "Gender",
   "Male": "Male",
   "Female": "Female",
-  "Back": "Back"
+  "Back": "Back",
+  "Please grant permission From the App Settings": "Please grant permission From the App Settings",
+  "Get VIP": "Get VIP",
+  "Get Unlimited Access": "Get Unlimited Access",
+  "Remove All Ads": "Remove All Ads",
+  "More Accurate Responses": "More Accurate Responses",
+  "Non-Plagiarized Texts": "Non-Plagiarized Texts",
+  "Unlock the Full Potential of LitDraft by Choosing a Subscription Plan": "Unlock the Full Potential of LitDraft by Choosing a Subscription Plan",
+  "Subscribe Now": "Subscribe Now",
+  "Please Enter text": "Please Enter text"
 };

@@ -8,9 +8,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:onepref/onepref.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await OnePref.init();
   if (Platform.isIOS) {
     await Firebase.initializeApp();
   } else {
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       translations: LocaleString(),
       locale: getLanguage(),
-      home: OnboardingScreen(),
+      home: box.read("isOnBoarding") ?? false ? const OnboardingScreen() : MainScreen(),
       themeMode: getTheme(),
       theme: ThemeDataStyle.light, // Light/Default mode styles
       darkTheme: ThemeDataStyle.dark, // Dark mode styles

@@ -5,7 +5,6 @@ import '../screens/accounts_screen.dart';
 import '../screens/emails_screen.dart';
 import '../screens/prompts_screen.dart';
 import '../screens/write_dashboard_screen.dart';
-import 'emails_screen_controller.dart';
 
 class BottomNavigationController extends GetxController {
   final RxInt selectedIndex = 0.obs;

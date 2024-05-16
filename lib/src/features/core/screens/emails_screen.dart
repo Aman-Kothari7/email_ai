@@ -12,7 +12,6 @@ import 'package:share_plus/share_plus.dart';
 import '../../../common_widgets/cards.dart';
 import '../../../common_widgets/search_bar_widget.dart';
 import '../../database/db.dart';
-import '../controllers/emails_screen_controller.dart';
 import '../models/my_email_model.dart';
 
 class EmailsScreen extends StatefulWidget {
@@ -21,7 +20,6 @@ class EmailsScreen extends StatefulWidget {
 }
 
 class _EmailsScreenState extends State<EmailsScreen> with AutomaticKeepAliveClientMixin {
-  final MyEmailListController controller = Get.put(MyEmailListController());
   DBHelper? dbHelper;
   @override
   void initState() {

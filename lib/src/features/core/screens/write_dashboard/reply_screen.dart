@@ -2,6 +2,8 @@ import 'package:email_ai/src/features/core/screens/write_dashboard/preference_ta
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../common_widgets/app_button.dart';
@@ -61,19 +63,19 @@ class ReplayScreen extends StatelessWidget {
                                 maxLength: 4096,
                                 maxLines: 6,
                               ),
-                              Obx(() => (controller.replayMailLength.value > 0)
-                                  ? SizedBox.shrink()
-                                  : Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          print("mic");
-                                        },
-                                        child: SvgPicture.asset(
-                                          Assets.icons.icnMic,
-                                        ),
-                                      ),
-                                    )),
+                              // Obx(() => (controller.replayMailLength.value > 0)
+                              //     ? SizedBox.shrink()
+                              //     : Align(
+                              //         alignment: Alignment.bottomRight,
+                              //         child: GestureDetector(
+                              //           onTap: () {
+                              //             print("mic");
+                              //           },
+                              //           child: SvgPicture.asset(
+                              //             Assets.icons.icnMic,
+                              //           ),
+                              //         ),
+                              //       )),
                             ],
                           ),
                         ),
@@ -120,19 +122,19 @@ class ReplayScreen extends StatelessWidget {
                                 maxLength: 4096,
                                 maxLines: 6,
                               ),
-                              Obx(() => (controller.replayLength.value > 0)
-                                  ? SizedBox.shrink()
-                                  : Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          print("mic");
-                                        },
-                                        child: SvgPicture.asset(
-                                          Assets.icons.icnMic,
-                                        ),
-                                      ),
-                                    )),
+                              // Obx(() => (controller.replayLength.value > 0)
+                              //     ? SizedBox.shrink()
+                              //     : Align(
+                              //         alignment: Alignment.bottomRight,
+                              //         child: GestureDetector(
+                              //           onTap: () {
+                              //             print("mic");
+                              //           },
+                              //           child: SvgPicture.asset(
+                              //             Assets.icons.icnMic,
+                              //           ),
+                              //         ),
+                              //       )),
                             ],
                           ),
                         ),
@@ -225,7 +227,43 @@ class ReplayScreen extends StatelessWidget {
           ),
           bottomNavigationBar: AppButton(
             'Generate'.tr,
-            () {},
+            () async {
+              try {
+                if (controller.replayMailController.text.isNotEmpty && controller.replayController.text.isNotEmpty) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+
+                  String replyMailPrompt = controller.replayMailController.text;
+                  String replyPrompt = controller.replayController.text;
+                  var textType = (controller.textTypeList.where((element) => element.isSelected == true)).first.title.tr;
+                  var textLength = (controller.textLengthList.where((element) => element.isSelected == true)).first.title.tr;
+                  var textWritingTone = (controller.writingToneList.where((element) => element.isSelected == true)).first.title.tr;
+                  var useEmoji = (controller.useEmojiList.where((element) => element.isSelected == true)).first.title.tr;
+
+                  String prompt =
+                      "Generate an ${textType} based on the user's specifications. Here are the details:\n Replying to : $replyMailPrompt \nContent Requirement: $replyPrompt\n Length: $textLength\n Writing Tone: $textWritingTone\n${controller.replayPrompt}";
+
+                  print(prompt);
+
+                  await controller.chatGPTAPIWrite(context, prompt, title: replyPrompt, isClear: true);
+                } else {
+                  Get.showSnackbar(
+                    GetSnackBar(
+                      message: "Please Enter text".tr,
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }
+                controller.clear();
+              } catch (ex) {
+                Get.showSnackbar(
+                  GetSnackBar(
+                    message: ex.toString(),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+                Navigator.pop(context);
+              }
+            },
             isLoading: false,
             textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: AppColor.whiteColor),
           ),

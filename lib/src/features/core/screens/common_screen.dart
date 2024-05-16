@@ -1,5 +1,4 @@
 import 'package:email_ai/src/constants/colors.dart';
-import 'package:email_ai/src/features/core/screens/send_mail_screen.dart';
 import 'package:email_ai/src/features/core/screens/write_dashboard/preference_tags_modelSheet.dart';
 import 'package:flag/flag_enum.dart';
 import 'package:flag/flag_widget.dart';
@@ -8,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../main.dart';
@@ -17,18 +19,82 @@ import '../../../common_widgets/text_form_field.dart';
 import '../../../common_widgets/top_app_bar.dart';
 import '../controllers/write_controller.dart';
 
-class CommonWrite extends StatelessWidget {
+class CommonWrite extends StatefulWidget {
   double height;
   int maxLines;
   bool? isRequiredAppbar;
-  CommonWrite({required this.height, required this.maxLines, this.isRequiredAppbar, super.key});
+  String? title;
+  String? description;
+  CommonWrite({this.title, this.description, required this.height, required this.maxLines, this.isRequiredAppbar, super.key});
 
+  @override
+  State<CommonWrite> createState() => _CommonWriteState();
+}
+
+class _CommonWriteState extends State<CommonWrite> {
   final WriteController controller = Get.put(WriteController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (widget.description != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.writeMailController.text = widget.description ?? '';
+
+        controller.writeMailLength.value = controller.writeMailController.text.length;
+      });
+    }
+    if (!speechEnabled.value) {
+      initSpeech();
+    }
+  }
+
+  final SpeechToText speechToText = SpeechToText();
+  RxBool speechEnabled = false.obs;
+  String lastWords = "";
+
+  void initSpeech() async {
+    speechEnabled.value = await speechToText.initialize();
+  }
+
+  /// Each time to start a speech recognition session
+  void startListening() async {
+    try {
+      await speechToText.listen(
+        onResult: onSpeechResult,
+        listenFor: const Duration(seconds: 30),
+        localeId: "en_En",
+        cancelOnError: false,
+        partialResults: false,
+        listenMode: ListenMode.confirmation,
+      );
+      setState(() {});
+    } catch (ex) {
+      print(ex);
+    }
+  }
+
+  void stopListening() async {
+    await speechToText.stop();
+    setState(() {});
+  }
+
+  /// This is the callback that the SpeechToText plugin calls when
+  /// the platform returns recognized words.
+  void onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      lastWords = "$lastWords${result.recognizedWords} ";
+      controller.writeMailController.text = lastWords;
+      controller.writeMailLength.value = controller.writeMailController.text.length;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: (isRequiredAppbar ?? false)
+      appBar: (widget.isRequiredAppbar ?? false)
           ? TopAppBar()
           : AppBar(
               toolbarHeight: 0,
@@ -41,8 +107,18 @@ class CommonWrite extends StatelessWidget {
             body: SingleChildScrollView(
               child: Column(
                 children: [
+                  if (widget.title != null)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 15, left: 15, right: 15),
+                      child: Text(
+                        "${widget.title}".tr,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   SizedBox(
-                    height: height,
+                    height: widget.height,
                     child: ContainerCard(
                       margin: EdgeInsets.only(bottom: 10),
                       child: Column(
@@ -75,7 +151,7 @@ class CommonWrite extends StatelessWidget {
                                     controller.writeMailLength.value = val.length;
                                   },
                                   maxLength: 4096,
-                                  maxLines: this.maxLines,
+                                  maxLines: this.widget.maxLines,
                                 ),
                                 Obx(() => (controller.writeMailLength.value > 0)
                                     ? SizedBox.shrink()
@@ -83,11 +159,21 @@ class CommonWrite extends StatelessWidget {
                                         alignment: Alignment.bottomRight,
                                         child: GestureDetector(
                                           onTap: () {
-                                            print("mic");
+                                            controller.listenForPermissions();
+                                            if (speechToText.isNotListening)
+                                              startListening();
+                                            else
+                                              stopListening();
                                           },
-                                          child: SvgPicture.asset(
-                                            Assets.icons.icnMic,
-                                          ),
+                                          child: speechToText.isNotListening
+                                              ? SvgPicture.asset(
+                                                  Assets.icons.icnMic,
+                                                )
+                                              : Icon(
+                                                  Icons.stop_circle,
+                                                  color: AppColor.primaryColor,
+                                                  size: 35,
+                                                ),
                                         ),
                                       )),
                               ],
@@ -213,7 +299,7 @@ class CommonWrite extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  (isRequiredAppbar ?? false)
+                  (widget.isRequiredAppbar ?? false)
                       ? Expanded(
                           flex: 1,
                           child: AppButton('Back'.tr, () {
@@ -226,7 +312,7 @@ class CommonWrite extends StatelessWidget {
                               isSecondaryBackground: true),
                         )
                       : SizedBox.shrink(),
-                  (isRequiredAppbar ?? false)
+                  (widget.isRequiredAppbar ?? false)
                       ? SizedBox(
                           width: 10,
                         )
@@ -239,7 +325,7 @@ class CommonWrite extends StatelessWidget {
                         try {
                           if (controller.writeMailController.text.isNotEmpty) {
                             FocusManager.instance.primaryFocus?.unfocus();
-                            showLoader(context);
+
                             String userPrompt = controller.writeMailController.text;
                             var textType = (controller.textTypeList.where((element) => element.isSelected == true)).first.title.tr;
                             var textLength = (controller.textLengthList.where((element) => element.isSelected == true)).first.title.tr;
@@ -247,18 +333,18 @@ class CommonWrite extends StatelessWidget {
                             var useEmoji = (controller.useEmojiList.where((element) => element.isSelected == true)).first.title.tr;
 
                             String prompt =
-                                "Write an ${textType} according to the following prompt given by the user: $userPrompt\n$textType\n$textLength\n$textWritingTone\n$useEmoji";
+                                "Generate an ${textType} based on the user's specifications. Here are the details:\n Content Requirement: $userPrompt\n Length: $textLength\n Writing Tone: $textWritingTone\n Output language: ${controller.selectedOutputLanguage.value}\n${controller.writePrompt}";
                             print(prompt);
-                            await controller.chatGPTAPI(prompt, title: controller.writeMailController.value);
+                            await controller.chatGPTAPIWrite(context, prompt,
+                                title: controller.writeMailController.value.text, isClear: !(widget.isRequiredAppbar ?? false));
                           } else {
                             Get.showSnackbar(
                               GetSnackBar(
-                                message: "Please Enter value",
+                                message: "Please Enter text".tr,
                                 duration: const Duration(seconds: 2),
                               ),
                             );
                           }
-                          controller.clear();
                         } catch (ex) {
                           Get.showSnackbar(
                             GetSnackBar(
@@ -266,7 +352,6 @@ class CommonWrite extends StatelessWidget {
                               duration: const Duration(seconds: 2),
                             ),
                           );
-                          Navigator.pop(context);
                         }
                       },
                       isLoading: false,

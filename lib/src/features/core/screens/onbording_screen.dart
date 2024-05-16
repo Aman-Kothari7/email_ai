@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../../gen/assets.gen.dart';
+import '../../../../main.dart';
 import '../../../common_widgets/app_button.dart';
 import 'main_screen.dart';
 
@@ -48,6 +49,7 @@ class OnboardingScreen extends StatelessWidget {
             AppButton(
               'Get Started',
               () {
+                box.write("isOnBoarding", false);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => MainScreen()),

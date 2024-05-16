@@ -27,6 +27,7 @@ class SearchBarWidget extends StatelessWidget {
         fillColor: Theme.of(context).cardColor,
         onChanged: onChanged,
         controller: controller,
+        cursorColor: AppColor.primaryColor,
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: 10, left: 10),
           child: SizedBox(
